@@ -1,6 +1,14 @@
 class ListsController < ApplicationController
-    before_action :set_list, only: [:update, :destroy]
+    before_action :set_list, only: [:show, :update, :destroy]
 
+    def index
+      lists = List.all
+      render json: lists, status: :ok
+    end
+  
+    def show
+      render json: @list, status: :ok
+    end
   
     # to create a new list
     def create
@@ -18,7 +26,7 @@ class ListsController < ApplicationController
       if @list.update(list_params)
         render json: @list, status: :ok
       else
-        render json: @list.erros, status: :unprocessable_entity
+        render json: @list.errors, status: :unprocessable_entity
       end
     end
   
@@ -34,7 +42,7 @@ class ListsController < ApplicationController
     private
   
     def list_params
-      params.permit(:name :user_id)
+      params.permit(:name, :user_id)
     end
   
     def set_list
