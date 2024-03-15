@@ -2,9 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "Items", type: :request do
   describe "GET /items" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     it 'returns a response with all the items' do
       create(:item)
-      get '/items'
+      get '/items', headers: { Authorization: "Bearer #{token}" }
       expect(response.body).to eq(Item.all.to_json)
     end
   end
@@ -12,18 +15,24 @@ RSpec.describe "Items", type: :request do
   describe "GET /item" do
     let (:item) {create(:item)}
 
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     it 'returns a response with the specified item' do
-      get "/items/#{item.id}"
+      get "/items/#{item.id}", headers: { Authorization: "Bearer #{token}" }
       expect(response.body).to eq(item.to_json)
     end
   end
 
   describe "POST /items" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let(:list) {create(:list)}
 
     before do
       item_attributes = attributes_for(:item, list_id: list.id)
-      post "/items", params: item_attributes
+      post "/items", params: item_attributes, headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'creates a new item' do
@@ -36,10 +45,13 @@ RSpec.describe "Items", type: :request do
   end
 
   describe "PUT /items/:id" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let (:item) {create(:item)}
 
     before do
-      put "/items/#{item.id}", params: {name: "new name"}
+      put "/items/#{item.id}", params: {name: "new name"}, headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'updates an item' do
@@ -49,10 +61,13 @@ RSpec.describe "Items", type: :request do
   end
 
   describe "DELETE /items/:id" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let (:item) {create(:item)}
 
     before do
-      delete "/items/#{item.id}"
+      delete "/items/#{item.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it 'deletes an item' do
