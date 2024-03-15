@@ -2,11 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Lists", type: :request do
   describe "GET /lists" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let(:list) {create(:list)}
 
     before do
       list
-      get "/lists"
+      get "/lists", headers: { Authorization: "Bearer #{token}" }
     end
 
     it "returns a successful response" do
@@ -19,10 +22,13 @@ RSpec.describe "Lists", type: :request do
   end
 
   describe "GET /lists/:id" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let(:list) {create(:list)}
 
     before do
-      get "/lists/#{list.id}"
+      get "/lists/#{list.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it "returns a successful response" do
@@ -35,12 +41,15 @@ RSpec.describe "Lists", type: :request do
   end
 
   describe "POST /lists" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     context "with valid params" do
       let (:user) {create(:user)}
 
       before do
         list_attributes = attributes_for(:list, user_id: user.id)
-        post "/lists", params: list_attributes
+        post "/lists", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it "returns a successful response" do
@@ -56,7 +65,7 @@ RSpec.describe "Lists", type: :request do
 
       before do
         list_attributes = attributes_for(:list, user_id: nil)
-        post "/lists", params: list_attributes
+        post "/lists", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it "returns a response with errors" do
@@ -66,12 +75,15 @@ RSpec.describe "Lists", type: :request do
   end
 
   describe "PUT /lists/:id" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     context "with valid params" do
       let(:list) {create(:list)}
 
       before do
         list_attributes = attributes_for(:list, name: "updated name")
-        put "/lists/#{list.id}", params: list_attributes
+        put "/lists/#{list.id}", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it "updates a list" do
@@ -89,7 +101,7 @@ RSpec.describe "Lists", type: :request do
 
       before do
         list_attributes = {name: nil}
-        put "/lists/#{list.id}", params: list_attributes
+        put "/lists/#{list.id}", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
       it "returns a response with errors" do
@@ -99,10 +111,13 @@ RSpec.describe "Lists", type: :request do
   end
 
   describe "DELETE /lists/:id" do
+    let(:user) {create(:user)}
+    let(:token) { auth_token_for_user(user)}
+
     let(:list) {create(:list)}
 
     before do
-      delete "/lists/#{list.id}"
+      delete "/lists/#{list.id}", headers: { Authorization: "Bearer #{token}" }
     end
 
     it "deletes a list" do

@@ -21,6 +21,19 @@ RSpec.describe User, type: :model do
       user = build(:user, email: nil);
       expect(user).not_to be_valid
     end
+
+    it 'is invalid when password is nil' do
+      user = build(:user, password: nil)
+    end
+
+    it 'is invalid when password_confirmation is nil' do
+      user = build(:user, password_confirmation: nil)
+    end
+
+    it 'hashes the password' do
+      user = create(:user)
+      expect(user.password_digest).not_to eq 'password'
+    end
   end
 
   context 'Uniqueness test' do
