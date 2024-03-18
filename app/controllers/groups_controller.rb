@@ -9,10 +9,12 @@ class GroupsController < ApplicationController
 
     def show
         render json: @group, status: :ok
+        # TODO add blueprint to show all the users in a group
     end
 
     def create
-        group = Group.new(group_params)
+        # group = Group.new(group_params)
+        group = @current_user.created_groups.new(group_params)
 
         if group.save
             render json: group, status: :created

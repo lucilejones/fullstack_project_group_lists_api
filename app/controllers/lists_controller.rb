@@ -8,12 +8,14 @@ class ListsController < ApplicationController
     end
   
     def show
-      render json: @list, status: :ok
+      # render json: @list, status: :ok
+      render json: ListBlueprint.render(@list, view: :long), status: :ok
     end
   
     # to create a new list
     def create
-      list = List.new(list_params)
+      # list = List.new(list_params)
+      list = @current_user.lists.new(list_params)
   
       if list.save
         render json: list, status: :created
@@ -43,7 +45,7 @@ class ListsController < ApplicationController
     private
   
     def list_params
-      params.permit(:name, :user_id)
+      params.permit(:name)
     end
   
     def set_list

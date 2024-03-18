@@ -29,7 +29,7 @@ RSpec.describe "Groups", type: :request do
     let(:token) { auth_token_for_user(user)}
 
     before do
-      group_attributes = attributes_for(:group, user_id: user.id)
+      group_attributes = attributes_for(:group)
       post "/groups", params: group_attributes, headers: { Authorization: "Bearer #{token}" }
     end
 

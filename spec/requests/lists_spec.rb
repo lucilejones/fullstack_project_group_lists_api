@@ -48,7 +48,7 @@ RSpec.describe "Lists", type: :request do
       let (:user) {create(:user)}
 
       before do
-        list_attributes = attributes_for(:list, user_id: user.id)
+        list_attributes = attributes_for(:list)
         post "/lists", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 
@@ -64,7 +64,7 @@ RSpec.describe "Lists", type: :request do
     context "with invalid params" do
 
       before do
-        list_attributes = attributes_for(:list, user_id: nil)
+        list_attributes = attributes_for(:list, name: nil)
         post "/lists", params: list_attributes, headers: { Authorization: "Bearer #{token}" }
       end
 

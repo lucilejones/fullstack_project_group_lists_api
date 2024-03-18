@@ -7,11 +7,13 @@ class UsersController < ApplicationController
     users = User.all
 
     render json: users, status: 200
+    # render json: UserBlueprint.render(users, view: :normal), status: 200
   end
 
   # to get one user
   def show
-    render json: @user, status: 200
+    # render json: @user, status: 200
+    render json: UserBlueprint.render(@user, view: :normal), status: 200
   end
 
   # to create a new user
@@ -47,7 +49,8 @@ class UsersController < ApplicationController
     user = User.find(params[:user_id])
     user_lists = user.lists
 
-    render json: user_lists, status: :ok
+    # render json: user_lists, status: :ok
+    render json: ListBlueprint.render(user_lists, view: :short), status: :ok
   end
 
   private
