@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
     before_action :set_item, only: [:show, :update, :destroy]
-    before_action :authenticate_request
+    # before_action :authenticate_request
 
     def index
         items = Item.all

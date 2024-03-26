@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
     before_action :set_group, only: [:show, :update, :destroy]
-    before_action :authenticate_request
+    # before_action :authenticate_request
 
     def index
         groups = Group.all
