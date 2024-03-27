@@ -6,4 +6,8 @@ class UserBlueprint < Blueprinter::Base
     view :normal do
         fields :username
     end
+
+    view :me do
+        fields :first_name, :last_name, :username, :email
+    end
 end
