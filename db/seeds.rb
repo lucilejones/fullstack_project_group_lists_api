@@ -17,14 +17,29 @@
         password_confirmation: 'password'
     )
 
-    rand(1..3).times do
-        user.lists.create!(name: Faker::Lorem.word)
-    end
-
     rand(1..2).times do
         user.created_groups.create!(
             name: Faker::Lorem.word
         )
+    end
+
+    rand(1..3).times do
+        # user.lists.create!(name: Faker::Lorem.word)
+        list = List.create!(
+            name: Faker::Lorem.word,
+            user_id: user.id
+        )
+
+        rand(5..10).times do
+            Item.create(
+                name: Faker::Lorem.word,
+                brand: Faker::Lorem.word,
+                store: Faker::Lorem.word,
+                notes: Faker::Lorem.paragraph,
+                need_to_purchase: Faker::Boolean,
+                list_id: list.id
+            )
+        end
     end
 end
 
