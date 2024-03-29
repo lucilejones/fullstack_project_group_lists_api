@@ -8,7 +8,8 @@ class ItemsController < ApplicationController
     end
 
     def show
-        render json: @item, status: :ok
+        # render json: @item, status: :ok
+        render json: ItemBlueprint.render(@item, view: :normal), status: :ok
     end
 
     def create
