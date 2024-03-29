@@ -4,7 +4,7 @@ class UserBlueprint < Blueprinter::Base
     identifier :id
 
     view :normal do
-        fields :username
+        fields :username, :first_name
     end
 
     view :me do

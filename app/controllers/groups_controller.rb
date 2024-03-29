@@ -8,8 +8,8 @@ class GroupsController < ApplicationController
     end
 
     def show
-        render json: @group, status: :ok
-        # TODO add blueprint to show all the users in a group
+        # render json: @group, status: :ok
+        render json: GroupBlueprint.render(@group, view: :long), status: :ok
     end
 
     def create

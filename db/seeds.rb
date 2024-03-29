@@ -18,9 +18,13 @@
     )
 
     rand(1..2).times do
-        user.created_groups.create!(
+        group = user.created_groups.create!(
             name: Faker::Lorem.word
         )
+
+        User.where.not(id: user.id).order('RANDOM()').limit(rand(1..3)).each do |other_user|
+            group.members << other_user unless group.members.include?(other_user)
+        end
     end
 
     rand(1..3).times do
@@ -36,7 +40,7 @@
                 brand: Faker::Lorem.word,
                 store: Faker::Lorem.word,
                 notes: Faker::Lorem.paragraph,
-                need_to_purchase: Faker::Boolean,
+                need_to_purchase: Faker::Boolean.boolean,
                 list_id: list.id
             )
         end
