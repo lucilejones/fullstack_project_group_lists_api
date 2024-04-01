@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # OR do a blueprint with the association items (for a long view)
   resources :users do
     get 'lists', to: 'users#lists_index'
-    get 'created_groups', to: 'users#groups_index'
+    get 'created_groups', to: 'users#created_groups_index'
+    get 'joined_groups', to: 'users#joined_groups_index'
   end
 end

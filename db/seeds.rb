@@ -34,6 +34,14 @@
             user_id: user.id
         )
 
+        if rand(1..5) <= 4
+            group = user.created_groups.sample
+            list.group_id = group.id if group.present?
+            puts "Adding groups"
+        end
+      
+        list.save
+
         rand(5..10).times do
             Item.create(
                 name: Faker::Lorem.word,

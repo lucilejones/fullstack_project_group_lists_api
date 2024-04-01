@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_14_193810) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_01_174102) do
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_193810) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group_id"
+    t.index ["group_id"], name: "index_lists_on_group_id"
     t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
@@ -63,5 +65,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_193810) do
   add_foreign_key "group_users", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "items", "lists"
+  add_foreign_key "lists", "groups"
   add_foreign_key "lists", "users"
 end

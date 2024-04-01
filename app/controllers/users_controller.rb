@@ -53,9 +53,16 @@ class UsersController < ApplicationController
     render json: ListBlueprint.render(user_lists, view: :short), status: :ok
   end
 
-  def groups_index
+  def created_groups_index
     user = User.find(params[:user_id])
     user_groups = user.created_groups
+
+    render json: GroupBlueprint.render(user_groups, view: :short), status: :ok
+  end
+
+  def joined_groups_index
+    user = User.find(params[:user_id])
+    user_groups = user.joined_groups
 
     render json: GroupBlueprint.render(user_groups, view: :short), status: :ok
   end

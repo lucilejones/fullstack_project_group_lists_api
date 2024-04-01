@@ -13,7 +13,8 @@ class User < ApplicationRecord
     has_many :created_groups, class_name: 'Group', foreign_key: 'user_id'
 
     has_many :group_users
-    has_many :groups, through: :group_users
+    # has_many :groups, through: :group_users
+    has_many :joined_groups, through: :group_users, source: :group
 
     private
     def validate_username
