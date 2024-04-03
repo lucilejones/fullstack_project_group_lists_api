@@ -21,6 +21,8 @@
         group = user.created_groups.create!(
             name: Faker::Lorem.word
         )
+        
+        group.members << user
 
         User.where.not(id: user.id).order('RANDOM()').limit(rand(1..3)).each do |other_user|
             group.members << other_user unless group.members.include?(other_user)
