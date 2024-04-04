@@ -5,6 +5,7 @@ class GroupBlueprint < Blueprinter::Base
 
     view :short do
         fields :name
+        association :creator, blueprint: UserBlueprint, view: :normal
     end
 
     # TODO add view to show all the users in the group
