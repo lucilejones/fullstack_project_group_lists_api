@@ -8,8 +8,7 @@ Rails.application.routes.draw do
   resources :groups
   resources :items
   resources :lists
-  # TODO? add a get 'items', to: 'lists#items_index'
-  # OR do a blueprint with the association items (for a long view)
+
   resources :users do
     get 'lists', to: 'users#lists_index'
     get 'created_groups', to: 'users#created_groups_index'

@@ -8,7 +8,7 @@ class ListBlueprint < Blueprinter::Base
     end
 
     view :long do
-        fields :name, :user_id
+        fields :name, :user_id, :group_id
         association :items, blueprint: ItemBlueprint, view: :normal do | list, options |
             list.items
         end

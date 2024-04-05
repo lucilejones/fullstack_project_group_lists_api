@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
     before_action :set_list, only: [:show, :update, :destroy]
-    # before_action :authenticate_request
+    before_action :authenticate_request
 
     def index
       lists = List.all
@@ -45,7 +45,7 @@ class ListsController < ApplicationController
     private
   
     def list_params
-      params.permit(:name)
+      params.permit(:name, :group_id)
     end
   
     def set_list
