@@ -5,7 +5,10 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
   end
 
-  resources :groups
+  resources :groups do
+    post 'join', to: 'groups#join'
+    delete 'leave', to: 'groups#leave'
+  end
   resources :items
   resources :lists
 

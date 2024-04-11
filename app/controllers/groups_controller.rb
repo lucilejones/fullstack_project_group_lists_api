@@ -40,6 +40,34 @@ class GroupsController < ApplicationController
         end
     end
 
+    def join
+        group = Group.find(params[:group_id])
+
+        return render json: {error: "You are already a member of this group."}, status: :unprocessable_entity if group.members.include?(@current_user)
+
+        group.members << @current_user
+
+        Pusher.trigger(group.creator.id, 'notifications', {
+            group_id: group.id,
+            notification: "#{@current_user.username} has joined your group #{group.name}."
+        })
+
+        head :ok
+    end
+
+    def leave
+        group = Group.find(params[:group_id])
+
+        group.members.delete(@current_user)
+
+        Pusher.trigger(group.creator.id, 'notifications', {
+            group_id: group.id,
+            notification: "#{@current_user.username} has left your group #{group.name}."
+        })
+        
+        head :ok
+    end
+
     private
 
     def set_group
