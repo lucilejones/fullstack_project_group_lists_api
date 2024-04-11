@@ -6,10 +6,12 @@ Rails.application.routes.draw do
   end
 
   resources :groups do
+    # localhost:3000/groups/:id/join
     post 'join', to: 'groups#join'
     delete 'leave', to: 'groups#leave'
   end
   resources :items
+  resources :invitations
   resources :lists
 
   resources :users do
