@@ -2,9 +2,12 @@ class InvitationsController < ApplicationController
     before_action :authenticate_request
   
     def create
+      puts params.inspect
+
+      # invitation = Invitation.new(invitation_params)
+
       sender = @current_user
-#   might be able to take out [:invitation] in front of all these?
-      recipient_email = params[:invitation][:recipient_email]
+      recipient_email = invitation_params[:email]
       recipient = User.find_by(email: recipient_email)
   
       if recipient.nil?
@@ -12,7 +15,7 @@ class InvitationsController < ApplicationController
         return
       end
   
-      existing_invitation = Invitation.find_by(sender_id: sender.id, recipient_id: recipient.id, group_id: params[:invitation][:group_id])
+      existing_invitation = Invitation.find_by(sender_id: sender.id, recipient_id: recipient.id, group_id: invitation_params[:group_id])
   
       if existing_invitation.present?
         render json: { error: "Invitation already sent" }, status: :unprocessable_entity
@@ -20,13 +23,14 @@ class InvitationsController < ApplicationController
       end
   
       invitation = Invitation.new(
-        sender: sender,
-        recipient: recipient,
-        group_id: params[:invitation][:group_id],
+        sender_id: sender.id,
+        recipient_id: recipient.id,
+        group_id: invitation_params[:group_id],
         accepted: false
       )
+      puts invitation.sender_id
 
-      accept_invitation_url = params[:invitation][:accept_invitation_url]
+      accept_invitation_url = invitation_params[:accept_invitation_url]
   
       if invitation.save
         invitation_message = "You received an invitation from #{sender.username} to join a group! Click <a href='#{accept_invitation_url}'>here</a> to accept."
@@ -37,6 +41,12 @@ class InvitationsController < ApplicationController
       else
         render json: { error: "Failed to send invitation" }, status: :unprocessable_entity
       end
+    end
+
+    private
+
+    def invitation_params
+      params.require(:invitation).permit(:email, :group_id, :sender_id, :accept_invitation_url)
     end
   end
   

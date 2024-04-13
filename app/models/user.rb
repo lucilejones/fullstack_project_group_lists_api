@@ -16,6 +16,9 @@ class User < ApplicationRecord
     # has_many :groups, through: :group_users
     has_many :joined_groups, through: :group_users, source: :group
 
+    has_many :sent_invitations, class_name: "Invitation", foreign_key: "sender_id"
+    has_many :received_invitations, class_name: "Invitation", foreign_key: "recipient_id"
+
     private
     def validate_username
         unless username =~ /\A[a-zA-Z0-9_]+\Z/
