@@ -30,10 +30,10 @@ class InvitationsController < ApplicationController
       )
       puts invitation.sender_id
 
-      accept_invitation_url = invitation_params[:accept_invitation_url]
+      # accept_invitation_url = invitation_params[:accept_invitation_url]
   
       if invitation.save
-        invitation_message = "You received an invitation from #{sender.username} to join a group! Click <a href='#{accept_invitation_url}'>here</a> to accept."
+        invitation_message = "You received an invitation from #{sender.username} to join a group!"
       
         Pusher.trigger('invitation_channel', 'send_invitation_event', { message: invitation_message }, { recipient_id: recipient.id })
   
@@ -46,7 +46,7 @@ class InvitationsController < ApplicationController
     private
 
     def invitation_params
-      params.require(:invitation).permit(:email, :group_id, :sender_id, :accept_invitation_url)
+      params.require(:invitation).permit(:email, :group_id, :sender_id)
     end
   end
   
