@@ -47,10 +47,10 @@ class GroupsController < ApplicationController
 
         group.members << @current_user
 
-        Pusher.trigger(group.creator.id, 'notifications', {
-            group_id: group.id,
-            notification: "#{@current_user.username} has joined your group #{group.name}."
-        })
+        # Pusher.trigger(group.creator.id, 'notifications', {
+        #     group_id: group.id,
+        #     notification: "#{@current_user.username} has joined your group #{group.name}."
+        # })
 
         head :ok
     end
@@ -60,10 +60,10 @@ class GroupsController < ApplicationController
 
         group.members.delete(@current_user)
 
-        Pusher.trigger(group.creator.id, 'notifications', {
-            group_id: group.id,
-            notification: "#{@current_user.username} has left your group #{group.name}."
-        })
+        # Pusher.trigger(group.creator.id, 'notifications', {
+        #     group_id: group.id,
+        #     notification: "#{@current_user.username} has left your group #{group.name}."
+        # })
         
         head :ok
     end

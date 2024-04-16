@@ -67,6 +67,20 @@ class UsersController < ApplicationController
     render json: GroupBlueprint.render(user_groups, view: :short), status: :ok
   end
 
+  def sent_invitations_index
+    user = User.find(params[:user_id])
+    user_invitations = user.sent_invitations
+
+    render json: InvitationBlueprint.render(user_invitations, view: :long), status: :ok
+  end
+
+  def received_invitations_index
+    user = User.find(params[:user_id])
+    user_invitations = user.received_invitations
+
+    render json: InvitationBlueprint.render(user_invitations, view: :long), status: :ok
+  end
+
   private
 
   def user_params

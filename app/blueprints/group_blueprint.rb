@@ -8,7 +8,6 @@ class GroupBlueprint < Blueprinter::Base
         association :creator, blueprint: UserBlueprint, view: :normal
     end
 
-    # TODO add view to show all the users in the group
     view :long do
         fields :name
         association :creator, blueprint: UserBlueprint, view: :normal

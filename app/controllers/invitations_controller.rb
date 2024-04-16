@@ -1,11 +1,17 @@
 class InvitationsController < ApplicationController
+    before_action :set_invitation, only: [:show, :update, :destroy]
     before_action :authenticate_request
   
+    def index
+      invitations = Invitation.all
+      render json: invitations, status: :ok
+    end
+
+    def show
+      render json: InvitationBlueprint.render(@invitation, view: :long), status: :ok
+    end
+
     def create
-      puts params.inspect
-
-      # invitation = Invitation.new(invitation_params)
-
       sender = @current_user
       recipient_email = invitation_params[:email]
       recipient = User.find_by(email: recipient_email)
@@ -28,25 +34,39 @@ class InvitationsController < ApplicationController
         group_id: invitation_params[:group_id],
         accepted: false
       )
-      puts invitation.sender_id
 
-      # accept_invitation_url = invitation_params[:accept_invitation_url]
-  
       if invitation.save
-        invitation_message = "You received an invitation from #{sender.username} to join a group!"
-      
-        Pusher.trigger('invitation_channel', 'send_invitation_event', { message: invitation_message }, { recipient_id: recipient.id })
-  
         render json: invitation, status: :created
       else
         render json: { error: "Failed to send invitation" }, status: :unprocessable_entity
       end
     end
 
+    def update
+      if @invitation.update(invitation_params)
+          render json: @invitation, status: :ok
+      else
+          render json: @invitation.errors, status: :unprocessable_entity
+      end
+    end
+
+    def destroy
+      if @invitation.destroy
+          render json: nil, status: :ok
+      else
+          render json: @invitation.errors, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def invitation_params
-      params.require(:invitation).permit(:email, :group_id, :sender_id)
+      params.require(:invitation).permit(:email, :group_id, :sender_id, :accepted)
+    end
+
+    def set_invitation
+      @invitation = Invitation.find(params[:id])
+      # @invitation = Invitation.find(invitation_params[:id])
     end
   end
   

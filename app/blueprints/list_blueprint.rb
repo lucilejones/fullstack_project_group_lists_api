@@ -13,5 +13,6 @@ class ListBlueprint < Blueprinter::Base
             list.items
         end
         association :user, blueprint: UserBlueprint, view: :normal
+        association :group, blueprint: GroupBlueprint, view: :short
     end
 end
